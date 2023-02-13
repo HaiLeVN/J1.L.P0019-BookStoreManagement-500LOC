@@ -1,5 +1,8 @@
 # J1.L.P0019-BookStoreManagement-500LOC
 
+Hello again,
+This is one of the longest assignments in the subject LAB211 at FPTU. In this assignment, code a book store and design its pattern more functionality.
+
 A Book Store needs a program to manage Book and Publisher information. With basic requirements 
 such as creating a Book (or Publisher), displaying Book (or Publisher) information, and updating
 information, .... Books and Publishers' information are stored in a text or binary file (Book.dat).
