@@ -5,7 +5,14 @@
         <group>
             <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/view/BookStoreManagement.java</file>
             <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/utils/Utils.java</file>
+            <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/dto/I_Book.java</file>
+            <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/controller/PublisherList.java</file>
+            <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/controller/BookList.java</file>
+            <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/dto/Book.java</file>
+            <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/dto/I_Publisher.java</file>
             <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/dto/I_Menu.java</file>
+            <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/dto/Publisher.java</file>
+            <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/dto/ManagerFactory.java</file>
             <file>file:/C:/Users/Thanh%20Hai/NetBeansProjects/BookStoreManagement/src/bookstore/controller/Menu.java</file>
         </group>
     </open-files>
