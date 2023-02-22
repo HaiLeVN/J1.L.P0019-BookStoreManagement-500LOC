@@ -1,4 +1,4 @@
-# J1.L.P0019-BookStoreManagement-500LOC
+# J1.L.P0019-BookStoreManagement-500LOC (Completed)
 
 Hello again,
 
@@ -10,18 +10,18 @@ information, .... Books and Publishers' information are stored in a text or bina
 
 Build a Book Store management program. With the following basic functions:
 1. Publishers’ management
-* 1.1. Create a Publisher
-* 1.2. Delete the Publisher
-* 1.3. Save the Publishers list to file
-* 1.4. Print the Publisher list from the file.
+* 1.1. Create a Publisher [x]
+* 1.2. Delete the Publisher [x]
+* 1.3. Save the Publishers list to file [x]
+* 1.4. Print the Publisher list from the file [x]
 2. Books management
-* 2.1. Create a Book
-* 2.2. Search the Book 
-* 2.3. Update a Book
-* 2.4. Delete the Book
-* 2.5. Save the Books list to file.
-* 2.6. Print the Books list from the file.
-* Others- Quit.
+* 2.1. Create a Book [x]
+* 2.2. Search the Book [x]
+* 2.3. Update a Book [x]
+* 2.4. Delete the Book [x]
+* 2.5. Save the Books list to file [x]
+* 2.6. Print the Books list from the file [x]
+* Others- Quit [x]
 
 > Made by **Hải Lê**
 
