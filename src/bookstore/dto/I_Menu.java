@@ -13,7 +13,7 @@ public interface I_Menu {
     // add a menu item--> add text to menu
    void addItem(String s);
    // get user choice( user input their choice)
-   int getChoice();
+   int getChoice(int min, int max);
    // show menu for user choice
    void showMenu();
    

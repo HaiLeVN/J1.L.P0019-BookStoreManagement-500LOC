@@ -22,9 +22,9 @@ public class Menu extends ArrayList<String> implements I_Menu {
     }
 
     @Override
-    public int getChoice() {
+    public int getChoice(int min, int max) {
         int result = -1;
-        result = Utils.getInt("Input your choice:", 1, 10);
+        result = Utils.getInt("Input your choice:", min, max);
         return result;
     }
 

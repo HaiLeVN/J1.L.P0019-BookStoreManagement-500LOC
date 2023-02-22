@@ -5,13 +5,15 @@
  */
 package bookstore.dto;
 
+import bookstore.controller.PublisherList;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
  * @author Thanh Hai
  */
-public class Book implements Serializable {
+public class Book implements Serializable, Comparable<Book> {
     
     private String bookID;
     private String bookName;
@@ -88,7 +90,7 @@ public class Book implements Serializable {
     public boolean equals(Object o) {
         if (o instanceof Book) {
             Book other = (Book) o;
-            return this.publisherID.equals(other.bookID);
+            return this.bookID.equals(other.bookID);
         }
         return false;
     }
@@ -96,5 +98,10 @@ public class Book implements Serializable {
     @Override
     public String toString() {
         return "Book{" + "bookID=" + bookID + ", bookName=" + bookName + ", bookPrice=" + bookPrice + ", quantity=" + quantity + ", Status=" + status + '}';
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        return this.quantity - o.getQuantity();
     }
 }

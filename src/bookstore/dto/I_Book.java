@@ -5,16 +5,14 @@
  */
 package bookstore.dto;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Thanh Hai
  */
 public interface I_Book {
-    void createBook(ArrayList<Publisher> publishers);
-    void searchBook(ArrayList<Book> searchResults);
-    void updateBook(ArrayList<Publisher> publishers);
+    void createBook();
+    void searchBook();
+    void updateBook();
     void deleteBook();
     void saveToFile();
     void printFromFile();

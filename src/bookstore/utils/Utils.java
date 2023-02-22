@@ -5,7 +5,12 @@
  */
 package bookstore.utils;
 
+import bookstore.controller.BookList;
 import bookstore.controller.PublisherList;
+import bookstore.dto.Book;
+import bookstore.dto.Publisher;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -142,25 +147,142 @@ public class Utils {
         return number;
     }
 
-    public static String getStatus(String welcome, int min) {
-        String input = null;
+    public static String getStatus(String welcome) {
+        String input = "Not Available";
         Scanner sc = new Scanner(System.in);
-        System.out.println("Statuses:\n 1 - Available\n 2 - Not Available");
+        System.out.println("Statuses:\n Default - Not Available\n 1 - Available");
         System.out.print(welcome);
         int temp;
-        do {
-            temp = Integer.parseInt(sc.nextLine());
-            switch (temp) {
-                case 1:
-                    input = "Available";
-                    break;
-                case 2:
-                    input = "Not Available";
-                    break;
-                default:
-                    System.out.println("[!] Invalid input. Please enter 1 or 2.");
-            }
-        } while (temp <= 1 || temp >= 2);
+        temp = Integer.parseInt(sc.nextLine());
+        if(temp == 1) {
+            input = "Available";
+            return input;
+        }
         return input;
+    }
+
+    public static String getString(String welcome, String formatter) {
+        boolean check = true;
+        String result = "";
+        do {
+            Scanner sc = new Scanner(System.in);
+            System.out.print(welcome);
+            result = sc.nextLine();
+            if (!result.matches(formatter)) {
+                System.out.println("Invalid ID format. Please enter a valid ID starting with 'B' and followed by 5 digits.");
+            } else {
+                if (result.isEmpty()) {
+                    System.out.println("Input text!!!");
+                } else {
+                    check = false;
+                }
+            }
+        } while (check);
+        return result;
+    }
+    public static String updateName(String welcome, String oldData) {
+        String result = oldData;
+        Scanner sc = new Scanner(System.in);
+        System.out.print(welcome);
+        String tmp = sc.nextLine();
+        if (!tmp.isEmpty()) {
+            result = tmp;
+        }
+        return result;
+    }
+
+    public static double updatePrice(String welcome, double oldData) {
+        boolean check = true;
+        double number = oldData;
+        do {
+            try {
+                Scanner sc = new Scanner(System.in);
+                System.out.print(welcome);
+                String tmp = sc.nextLine();
+                if (tmp.isEmpty()) {
+                    check = false;
+                } else {
+                    number = Integer.parseInt(tmp);
+                    check = false;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Input number!!!");
+            }
+        } while (check);
+        return number;
+    }
+
+    public static int updateQuantity(String welcome, int oldData) {
+        boolean check = true;
+        int number = oldData;
+        do {
+            try {
+                Scanner sc = new Scanner(System.in);
+                System.out.print(welcome);
+                String tmp = sc.nextLine();
+                if (tmp.isEmpty()) {
+                    check = false;
+                } else {
+                    number = Integer.parseInt(tmp);
+                    check = false;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Input number!!!");
+            }
+        } while (check);
+        return number;
+    }
+
+    public static String updateStatus(String welcome, int oldData) {
+        Scanner sc = new Scanner(System.in);
+        int statusNumber;
+        String status;
+        boolean check = true;
+
+        if (oldData == 1) {
+            status = "Available";
+        } else {
+            status = "Not Available";
+        }
+        do {
+            try {
+                System.out.print(welcome);
+                System.out.println("Statuses:\n Default - Not Available\n 1 - Available");
+                String tmp = sc.nextLine();
+                if (tmp.isEmpty()) {
+                    check = false;
+                } else {
+                    statusNumber = Integer.parseInt(tmp);
+                    if (statusNumber == 1) {
+                        status = "Available";
+                    } else {
+                        status = "Not Available";
+                    }
+                    check = false;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Input number!!!");
+            }
+        } while (check);
+        return status;
+    }
+
+    public static void displayDataGrid(BookList temp, PublisherList pub) {
+        ArrayList<Publisher> publishers = pub.getPublishers();
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------+");
+        // Format the column headers
+        System.out.format("| %-10s | %-25s | %-10s | %-15s | %-10s | %-25s| %-10s |\n", "Book ID", "Book Name", "Price", "Quantity", "Subtotal", "Publisher", "Status");
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------+");
+        for (Book b : temp) {
+            for (Publisher p : publishers) {
+                if (p.getPublisherID().equals(b.getPublisherID())) {
+                    // Calculate the subtotal for the book
+                    int subtotal = (int) (b.getQuantity() * b.getBookPrice());
+                    // Format the output for each book
+                    System.out.format("| %-10s | %-25s | %-10s | %-15s | %-10s | %-25s| %-10s |\n", b.getBookID(), b.getBookName(), b.getBookPrice(), b.getQuantity(), subtotal, p.getPublisherName(), b.getStatus());
+                }
+            }
+        }
+        System.out.println("+----------------------------------------------------------------------------------------------------------------------------+");
     }
 }

@@ -6,22 +6,16 @@
 package bookstore.view;
 
 import bookstore.controller.Menu;
-import bookstore.dto.Book;
 import bookstore.dto.I_Book;
 import bookstore.dto.I_Menu;
 import bookstore.dto.I_Publisher;
 import bookstore.dto.ManagerFactory;
-import bookstore.dto.Publisher;
-import java.util.ArrayList;
-
 /**
  *
  * @author Thanh Hai
  */
 public class BookStoreManagement {
     
-    static ArrayList<Publisher> publisher = new ArrayList<>();
-    static ArrayList<Book> book = new ArrayList<>();
     public static void main(String[] args) {
         I_Menu menu = new Menu();
         menu.addItem("1. Publisher's Management");
@@ -33,7 +27,7 @@ public class BookStoreManagement {
             System.out.println(">>==x===<<<< BOOK STORE >>>>===x==<<");
             menu.showMenu();
             System.out.println(">>==x=== =o======oo======o= ===x==<<");
-            choice = menu.getChoice();
+            choice = menu.getChoice(1, 3);
             switch(choice) {
                 case 1: 
                     handlePublisherManagement();
@@ -62,7 +56,7 @@ public class BookStoreManagement {
            System.out.println(">>==x===<<<< BOOK STORE >>>>===x==<<");
             menu.showMenu();
             System.out.println(">>==x=== =o======oo======o= ===x==<<");
-            choice = menu.getChoice();
+            choice = menu.getChoice(1, 5);
             switch(choice) {
                 case 1: 
                     publisherManager.createPublisher();
@@ -84,7 +78,6 @@ public class BookStoreManagement {
     }
 
     private static void handleBookManagement() {
-       I_Publisher publisherManager = ManagerFactory.createPublisherManager();
        I_Book bookManager = ManagerFactory.createBookManager();
        I_Menu menu = new Menu();
        int choice;
@@ -100,16 +93,16 @@ public class BookStoreManagement {
            System.out.println(">>==x===<<<< BOOK STORE >>>>===x==<<");
             menu.showMenu();
             System.out.println(">>==x=== =o======oo======o= ===x==<<");
-            choice = menu.getChoice();
+            choice = menu.getChoice(1, 7);
             switch(choice) {
                 case 1: 
-                    bookManager.createBook((ArrayList<Publisher>) publisherManager);
+                    bookManager.createBook();
                     break;
                 case 2:
-                    bookManager.searchBook((ArrayList<Publisher>) publisherManager);
+                    bookManager.searchBook();
                     break;
                 case 3:
-                    bookManager.updateBook((ArrayList<Publisher>) publisherManager);
+                    bookManager.updateBook();
                     break;
                 case 4:
                     bookManager.deleteBook();

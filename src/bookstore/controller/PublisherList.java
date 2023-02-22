@@ -6,7 +6,6 @@
 package bookstore.controller;
 
 import bookstore.dto.I_Publisher;
-import bookstore.dto.ManagerFactory;
 import bookstore.dto.Publisher;
 import bookstore.utils.Utils;
 import java.io.File;
@@ -27,10 +26,16 @@ import java.util.Comparator;
 public class PublisherList extends ArrayList<Publisher> implements I_Publisher, Serializable {
     
     private static final String FILE_PATH = "src/bookstore/output/Publisher.dat";
-    
+
     public PublisherList() {
+        super();
         loadFromFile();
     }
+    
+    public ArrayList<Publisher> getPublishers() {
+        return this; // return the ArrayList of Publisher objects
+    }
+    
     @Override
     public void createPublisher() {
         String code, name, phoneNumber;
@@ -65,6 +70,7 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
 
     @Override
     public void deletePublisher() {
+        print();
         String publisherId = Utils.getString("[?] Enter Publisher ID you want to delete:");
         int index = -1;
         for (int i = 0; i < this.size(); i++) {
@@ -93,6 +99,10 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
         } catch (IOException e) {
             System.out.println("[!] Error saving publisher list to file: " + e.getMessage());
         }
+        boolean confirm = Utils.askGoBackToMenu("Would you like to go back to menu? (Y/N): ");
+        if(!confirm) {
+            deletePublisher();
+        }
     }
 
     @Override
@@ -111,9 +121,7 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
             Utils.displayDataGrid(temp);
             in.close();
             fileIn.close();
-        } catch (IOException e) {
-            System.out.println("[!] Failed to print Publisher.dat due to exception: "+e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("[!] Failed to print Publisher.dat due to exception: "+e);
         }
     }
@@ -129,12 +137,9 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
             ObjectInputStream in = new ObjectInputStream(fileIn);
             PublisherList temp = (PublisherList) in.readObject();
             this.addAll(temp);
-            System.out.println("Loaded successfully");
             in.close();
             fileIn.close();
-        } catch (IOException e) {
-            System.out.println("[!] Failed to print Publisher.dat due to exception: "+e);
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println("[!] Failed to print Publisher.dat due to exception: "+e);
         }
     }
