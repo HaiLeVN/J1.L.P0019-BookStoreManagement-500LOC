@@ -38,7 +38,7 @@ public class BookStoreManagement {
                     handleBookManagement();
                     break;
                 case 3:
-                    check = menu.confirmYesNo("[!] Do you want to exit the program (Y/N)?");
+                    check = menu.confirmYesNo("[!] Do you want to exit the program (Y/N)? -> ");
                     break;
             }
         } while (choice >= 0 && choice <= 3 && !check);
@@ -79,12 +79,12 @@ public class BookStoreManagement {
                     break;
                 case 5:
                     if(!isSaved) {
-                        String confirm = Utils.getString("[WARNING] You have not save Publisher list yet, would you like to save (Y/N)?: ");
+                        String confirm = Utils.getString("[WARNING] You have not save Publisher list yet, would you like to save (Y/N)? -> ");
                         if("Y".equalsIgnoreCase(confirm)) {
                             publisherManager.saveToFile();
                         }
                     }
-                    check = menu.confirmYesNo("Do you want to exit the Publisher Management (Y/N)?");
+                    check = menu.confirmYesNo("Do you want to exit the Publisher Management (Y/N) -> ");
                     break;
             }
        } while (choice >= 0 && choice <= 5 && !check);
@@ -127,18 +127,19 @@ public class BookStoreManagement {
                     break;
                 case 5:
                     bookManager.saveToFile();
+                    isSaved = true;
                     break;
                 case 6:
                     bookManager.printFromFile();
                     break;
                 case 7:
                     if(!isSaved) {
-                        String confirm = Utils.getString("[WARNING] You have not save Book list yet, would you like to save (Y/N)?: ");
+                        String confirm = Utils.getString("[WARNING] You have not save Book list yet, would you like to save (Y/N)? -> ");
                         if("Y".equalsIgnoreCase(confirm)) {
                             bookManager.saveToFile();
                         }
                     }
-                    check = menu.confirmYesNo("Do you want to exit the Book Management (Y/N)?");
+                    check = menu.confirmYesNo("Do you want to exit the Book Management (Y/N)? -> ");
                     break;
             }
        } while (choice >= 0 && choice <= 7 && !check);

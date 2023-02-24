@@ -145,17 +145,20 @@ public class Utils {
         } while (check || number < min);
         return number;
     }
-
+    
     public static String getStatus(String welcome) {
         String input = "Not Available";
         Scanner sc = new Scanner(System.in);
         System.out.println("Statuses:\n Default - Not Available\n 1 - Available");
         System.out.print(welcome);
-        int temp;
-        temp = Integer.parseInt(sc.nextLine());
-        if(temp == 1) {
-            input = "Available";
-            return input;
+        String tempStr = sc.next(); // Read input as a string
+        try {
+            int temp = Integer.parseInt(tempStr); // Parse string to integer
+            if (temp == 1) {
+                input = "Available";
+            }
+        } catch (NumberFormatException e) {
+            // Input is not a valid integer, do nothing
         }
         return input;
     }

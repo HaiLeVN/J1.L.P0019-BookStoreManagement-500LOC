@@ -171,7 +171,7 @@ public class BookList extends ArrayList<Book> implements I_Book {
         int index = 0;
         //Print the list first before input book ID to update
         print();
-        String code = Utils.getString(" Enter Book ID to update: ", "B\\d{5}");
+        String code = Utils.getString(" Enter Book ID to remove: ", "B\\d{5}");
         
         //Check the Book's ID is exist or not
         if (!this.contains(new Book(code))) {
