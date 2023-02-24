@@ -5,9 +5,7 @@
  */
 package bookstore.dto;
 
-import bookstore.controller.PublisherList;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  *

@@ -5,6 +5,7 @@
  */
 package bookstore.controller;
 
+import bookstore.dto.Book;
 import bookstore.dto.I_Publisher;
 import bookstore.dto.Publisher;
 import bookstore.utils.Utils;
@@ -25,10 +26,9 @@ import java.util.Comparator;
  */
 public class PublisherList extends ArrayList<Publisher> implements I_Publisher, Serializable {
     
-    private static final String FILE_PATH = "src/bookstore/output/Publisher.dat";
+    private static final String FILE_PATH = "src/bookstore/data/Publisher.dat";
 
     public PublisherList() {
-        super();
         loadFromFile();
     }
     
@@ -70,6 +70,8 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
 
     @Override
     public void deletePublisher() {
+        BookList book = new BookList();
+        ArrayList<Book> manageBook = book.getBook();
         print();
         String publisherId = Utils.getString("[?] Enter Publisher ID you want to delete:");
         int index = -1;
@@ -83,6 +85,13 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
             System.out.println("[!] Publisher's ID does not exist.");
             return;
         }
+        //Check publisher ID is in the Book collections
+        for(Book b : manageBook) {
+            if(b.getPublisherID().equals(publisherId)) {
+                System.out.println("[!] This Publisher ID is containing in the Book collections, failed to delete");
+                return;
+            }
+        }
         this.remove(index);
         System.out.println("[!] Publisher deleted successfully.");
         boolean confirm = Utils.askGoBackToMenu("Would you like to go back to menu? (Y/N): ");
@@ -93,16 +102,18 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
 
     @Override
     public void saveToFile() {
+        // Create folder "data" if it does not exist
+        File outputFolder = new File("src/bookstore/data");
+        if (!outputFolder.exists()) {
+            outputFolder.mkdir();
+        }
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             oos.writeObject(this);
             System.out.println("[!] Publisher list saved to file successfully.");
         } catch (IOException e) {
             System.out.println("[!] Error saving publisher list to file: " + e.getMessage());
         }
-        boolean confirm = Utils.askGoBackToMenu("Would you like to go back to menu? (Y/N): ");
-        if(!confirm) {
-            deletePublisher();
-        }
+        Utils.exitMenu("Press any key to return to menu.");
     }
 
     @Override
@@ -110,7 +121,7 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
         try {
             File file = new File(FILE_PATH);
             if (!file.exists() || !file.canRead()) {
-                System.out.println("[!] Failed to read file at "+FILE_PATH);
+                System.out.println("[!] Current Publisher's data is empty or can't read it.");
                 return;
             }
             FileInputStream fileIn = new FileInputStream(file);
@@ -119,18 +130,19 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
             // Sort by Publisher's Name ascending
             Collections.sort(temp, Comparator.comparing(Publisher::getPublisherName));
             Utils.displayDataGrid(temp);
+            this.addAll(temp); //all information that gets from file, should be store into the collection
             in.close();
             fileIn.close();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("[!] Failed to print Publisher.dat due to exception: "+e);
         }
+        Utils.exitMenu("Press any key to return to menu.");
     }
 
     private void loadFromFile() {
         try {
             File file = new File(FILE_PATH);
             if (!file.exists() || !file.canRead()) {
-                System.out.println("[!] Failed to read file at "+FILE_PATH);
                 return;
             }
             FileInputStream fileIn = new FileInputStream(file);
@@ -140,7 +152,24 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
             in.close();
             fileIn.close();
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("[!] Failed to print Publisher.dat due to exception: "+e);
+            System.out.println("[!] Failed to load Publisher.dat due to exception: "+e);
+        }
+    }
+    
+    public void confirmSavingFile() {
+        if(this.isEmpty()) {
+            System.out.println("[!] Publisher List is empty, don't need to save.");
+            return;
+        }
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            oos.writeObject(this);
+            System.out.println("[!] Publisher list saved to file successfully.");
+        } catch (IOException e) {
+            System.out.println("[!] Error saving publisher list to file: " + e.getMessage());
+        }
+        boolean confirm = Utils.askGoBackToMenu("Would you like to go back to menu? (Y/N): ");
+        if(!confirm) {
+            deletePublisher();
         }
     }
 }

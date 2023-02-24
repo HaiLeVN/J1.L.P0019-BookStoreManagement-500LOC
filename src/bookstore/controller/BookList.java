@@ -26,8 +26,15 @@ import java.util.Comparator;
  */
 public class BookList extends ArrayList<Book> implements I_Book {
     
-    private static final String FILE_PATH = "src/bookstore/output/Book.dat";
+    private static final String FILE_PATH = "src/bookstore/data/Book.dat";
+
+    public BookList() {
+        loadFromFile();
+    }
     
+    public ArrayList<Book> getBook() {
+        return this; // return the ArrayList of Book objects
+    }
     
     @Override
     public void createBook() {
@@ -77,22 +84,27 @@ public class BookList extends ArrayList<Book> implements I_Book {
     @Override
     public void searchBook() {
         ArrayList<Book> searchResults = new ArrayList<>();
-        String searchStr = Utils.getString("Enter Publisher's Name to search: ");
-       
-        if (searchResults.isEmpty()) {
-            System.out.println("Have no any Book.");
-            return;
-        }
-        
+        String searchStr = Utils.getString("Enter Book's Name or Publisher's Id to search: ");
+
         for (Book b : this) {
             if (b.getBookName().toLowerCase().contains(searchStr.toLowerCase()) || b.getPublisherID().equals(searchStr)) {
                 searchResults.add(b);
             }
         }
-        
+
+        if (searchResults.isEmpty()) {
+            System.out.println("Have no any Book.");
+            return;
+        }
+
         Collections.sort(searchResults, (b1, b2) -> b1.getBookName().compareToIgnoreCase(b2.getBookName()));
         System.out.println("Search results:");
         printBookList(searchResults);
+
+        boolean confirm = Utils.askGoBackToMenu("Would you like to go back to menu? (Y/N): ");
+        if(!confirm) {
+            searchBook();
+        }
     }
 
     @Override
@@ -141,12 +153,11 @@ public class BookList extends ArrayList<Book> implements I_Book {
         newStatus = Utils.updateStatus(" Input new status: ", statusNumber);
         ((Book) this.get(index)).setStatus(newStatus);
         String publisherID = ((Book) this.get(index)).getPublisherID();
-        Book newData = new Book(code, newName, newPrice, newQuantity, newStatus, publisherID);
-        this.add(newData);
+        
         System.out.println("[!] Updated successfully ");
         boolean confirm = Utils.askGoBackToMenu("Would you like to go back to menu? (Y/N): ");
         if (!confirm) {
-            createBook();
+            updateBook();
         }
     }
     public void print() {
@@ -175,10 +186,20 @@ public class BookList extends ArrayList<Book> implements I_Book {
         } else {
             System.out.println("[!] Failed to delete");
         }
+        boolean confirm = Utils.askGoBackToMenu("Would you like to go back to menu? (Y/N): ");
+        if(!confirm) {
+            deleteBook();
+        }
     }
 
     @Override
     public void saveToFile() {
+        // Create folder "data" if it does not exist
+        File outputFolder = new File("src/bookstore/data");
+        if (!outputFolder.exists()) {
+            outputFolder.mkdir();
+        }
+
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             oos.writeObject(this);
             System.out.println("[!] Saved file successfully");
@@ -187,6 +208,7 @@ public class BookList extends ArrayList<Book> implements I_Book {
         } catch (IOException ex) {
              System.out.println("[!] Failed to save files at "+FILE_PATH+" due to exception "+ex);
         }
+        Utils.exitMenu("Press any key to return to menu.");
     }
 
     @Override
@@ -194,26 +216,34 @@ public class BookList extends ArrayList<Book> implements I_Book {
         PublisherList pub = new PublisherList();
         File file = new File(FILE_PATH);
         if (!file.canWrite() || !file.exists()) {
-            System.out.println("[!] Failed to print from file.");
+            System.out.println("[!] Current Book's data is empty or can't read it.");
         } else {
             try {
                 FileInputStream fis = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 BookList temp = (BookList) ois.readObject();
-                //Sort by Book's Quantity descending
+                //If the Book has same Quantity then the system will be ordered by Book’s Price
+                //The data grid should be displayed Book’s information order by Book’s Quantity descending.
                 Collections.sort(temp, new Comparator<Book>() {
                     @Override
                     public int compare(Book o1, Book o2) {
-                        return o2.getQuantity() - o1.getQuantity();
+                        int quantityDiff = o2.getQuantity() - o1.getQuantity();
+                        if (quantityDiff == 0) {
+                            // if Quantity is the same, compare by Price
+                            return Double.compare(o1.getBookPrice(), o2.getBookPrice());
+                        } else {
+                            return quantityDiff;
+                        }
                     }
                 });
+                this.addAll(temp);
                 Utils.displayDataGrid(temp, pub);
             } catch (FileNotFoundException ex) {
                 System.out.println("[!] Failed to print files at " + FILE_PATH + " due to exception " + ex);
             } catch (IOException | ClassNotFoundException ex) {
                 System.out.println("[!] Failed to print files at " + FILE_PATH + " due to exception " + ex);
             }
-
+            Utils.exitMenu("Press any key to return to menu.");
         }
     }
 
@@ -242,7 +272,20 @@ public class BookList extends ArrayList<Book> implements I_Book {
             System.out.println(o.toString());
         }
     }
-
-
-    
+    private void loadFromFile() {
+        try {
+            File file = new File(FILE_PATH);
+            if (!file.exists() || !file.canRead()) {
+                return;
+            }
+            FileInputStream fileIn = new FileInputStream(file);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            BookList temp = (BookList) in.readObject();
+            this.addAll(temp);
+            in.close();
+            fileIn.close();
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("[!] Failed to print Book.dat due to exception: "+e);
+        }
+    }  
 }

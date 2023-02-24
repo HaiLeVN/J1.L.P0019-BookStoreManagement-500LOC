@@ -12,13 +12,15 @@ import bookstore.controller.PublisherList;
  *
  * @author Thanh Hai
  */
-public class ManagerFactory {
+public class ManagerFactory implements I_ManagerFactory {
     
-    public static I_Book createBookManager() {
+    @Override
+    public I_Book createBookManager() {
         return new BookList();
     }
 
-    public static I_Publisher createPublisherManager() {
+    @Override
+    public I_Publisher createPublisherManager() {
         return new PublisherList();
     }
 }

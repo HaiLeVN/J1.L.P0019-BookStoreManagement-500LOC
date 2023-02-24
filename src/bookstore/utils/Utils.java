@@ -10,7 +10,6 @@ import bookstore.controller.PublisherList;
 import bookstore.dto.Book;
 import bookstore.dto.Publisher;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -117,13 +116,13 @@ public class Utils {
     }
 
     public static void displayDataGrid(PublisherList temp) {
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println("+--------------------------------------------------------------------+");
         System.out.print(String.format("| %-15s | %-25s | %-20s |\n", "Publisher ID", "Publisher Name", "Publisher Phone"));
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println("+--------------------------------------------------------------------+");
         temp.forEach((publisher) -> {
             System.out.print(String.format("| %-15s | %-25s | %-20s |\n", publisher.getPublisherID(), publisher.getPublisherName(), publisher.getPhoneNumber()));
         });
-        System.out.println("----------------------------------------------------------------------");
+        System.out.println("+--------------------------------------------------------------------+");
     }
 
     public static double getDouble(String welcome, int min) {
@@ -269,20 +268,27 @@ public class Utils {
 
     public static void displayDataGrid(BookList temp, PublisherList pub) {
         ArrayList<Publisher> publishers = pub.getPublishers();
-        System.out.println("+----------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
         // Format the column headers
-        System.out.format("| %-10s | %-25s | %-10s | %-15s | %-10s | %-25s| %-10s |\n", "Book ID", "Book Name", "Price", "Quantity", "Subtotal", "Publisher", "Status");
-        System.out.println("+----------------------------------------------------------------------------------------------------------------------------+");
+        System.out.format("| %-10s | %-35s | %-10s | %-10s | %-10s | %-25s| %-13s |\n", "Book ID", "Book Name", "Price", "Quantity", "Subtotal", "Publisher", "Status");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
         for (Book b : temp) {
             for (Publisher p : publishers) {
                 if (p.getPublisherID().equals(b.getPublisherID())) {
                     // Calculate the subtotal for the book
                     int subtotal = (int) (b.getQuantity() * b.getBookPrice());
                     // Format the output for each book
-                    System.out.format("| %-10s | %-25s | %-10s | %-15s | %-10s | %-25s| %-10s |\n", b.getBookID(), b.getBookName(), b.getBookPrice(), b.getQuantity(), subtotal, p.getPublisherName(), b.getStatus());
+                    System.out.format("| %-10s | %-35s | %-10s | %-10s | %-10s | %-25s| %-13s |\n", b.getBookID(), b.getBookName(), b.getBookPrice(), b.getQuantity(), subtotal, p.getPublisherName(), b.getStatus());
                 }
             }
         }
-        System.out.println("+----------------------------------------------------------------------------------------------------------------------------+");
+        System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
+    }
+
+    public static void exitMenu(String welcome) {
+        String key = "";
+        Scanner sc = new Scanner(System.in);
+        System.out.print(welcome);
+        key = sc.nextLine();
     }
 }
