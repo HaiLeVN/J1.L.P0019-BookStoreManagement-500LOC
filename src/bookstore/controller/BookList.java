@@ -169,7 +169,7 @@ public class BookList extends ArrayList<Book> implements I_Book {
     @Override
     public void deleteBook() {
         int index = 0;
-        //Print the list first before input book ID to update
+        //Print the list first before input book ID to remove
         print();
         String code = Utils.getString(" Enter Book ID to remove: ", "B\\d{5}");
         
