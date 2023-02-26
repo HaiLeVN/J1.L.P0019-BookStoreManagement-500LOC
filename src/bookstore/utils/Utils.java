@@ -273,13 +273,13 @@ public class Utils {
         ArrayList<Publisher> publishers = pub.getPublishers();
         System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
         // Format the column headers
-        System.out.format("| %-10s | %-35s | %-10s | %-10s | %-10s | %-25s| %-13s |\n", "Book ID", "Book Name", "Price", "Quantity", "Subtotal", "Publisher", "Status");
+        System.out.format("| %-10s | %-35s | %-10s | %-10s | %-10s | %-25s| %-13s |\n", "Book ID", "             Book Name", "Price", "Quantity", "Subtotal", "Publisher", "Status");
         System.out.println("+------------------------------------------------------------------------------------------------------------------------------------+");
         for (Book b : temp) {
             for (Publisher p : publishers) {
                 if (p.getPublisherID().equals(b.getPublisherID())) {
                     // Calculate the subtotal for the book
-                    int subtotal = (int) (b.getQuantity() * b.getBookPrice());
+                    double subtotal = (double) (b.getQuantity() * b.getBookPrice());
                     // Format the output for each book
                     System.out.format("| %-10s | %-35s | %-10s | %-10s | %-10s | %-25s| %-13s |\n", b.getBookID(), b.getBookName(), b.getBookPrice(), b.getQuantity(), subtotal, p.getPublisherName(), b.getStatus());
                 }

@@ -152,7 +152,6 @@ public class BookList extends ArrayList<Book> implements I_Book {
         }
         newStatus = Utils.updateStatus(" Input new status: ", statusNumber);
         ((Book) this.get(index)).setStatus(newStatus);
-        String publisherID = ((Book) this.get(index)).getPublisherID();
         
         System.out.println("[!] Updated successfully ");
         boolean confirm = Utils.askGoBackToMenu("Would you like to go back to menu? (Y/N): ");
@@ -236,7 +235,6 @@ public class BookList extends ArrayList<Book> implements I_Book {
                         }
                     }
                 });
-                this.addAll(temp);
                 Utils.displayDataGrid(temp, pub);
             } catch (FileNotFoundException ex) {
                 System.out.println("[!] Failed to print files at " + FILE_PATH + " due to exception " + ex);
@@ -267,6 +265,7 @@ public class BookList extends ArrayList<Book> implements I_Book {
         }
     }
 
+    //This method print the searching result of book list 
     private void printBookList(ArrayList<Book> searchResults) {
         for (Book o : searchResults) {
             System.out.println(o.toString());

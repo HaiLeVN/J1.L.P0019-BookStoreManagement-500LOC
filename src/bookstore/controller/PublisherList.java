@@ -129,8 +129,8 @@ public class PublisherList extends ArrayList<Publisher> implements I_Publisher, 
             PublisherList temp = (PublisherList) in.readObject();
             // Sort by Publisher's Name ascending
             Collections.sort(temp, Comparator.comparing(Publisher::getPublisherName));
+            
             Utils.displayDataGrid(temp);
-            this.addAll(temp); //all information that gets from file, should be store into the collection
             in.close();
             fileIn.close();
         } catch (IOException | ClassNotFoundException e) {
